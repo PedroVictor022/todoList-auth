@@ -20,6 +20,6 @@
   .main {
     width: 100%;
     height: 100vh;
-    background-color: #222;
+    background-color: #111;
   }
 </style>
