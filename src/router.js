@@ -14,6 +14,10 @@ const router = createRouter({
          meta: {
             requiresAuth: true
          }
+      },
+      {
+         path: '/register',
+         component: () => import('./Views/Register.vue')
       }
       // {
       //    path: '/register',
@@ -23,6 +27,7 @@ const router = createRouter({
 })
 
 const getCurrentUser = () => {
+   console.log(getAuth());
    return new Promise((resolve, reject) => {
       const removeListener = onAuthStateChanged(
          getAuth(),
