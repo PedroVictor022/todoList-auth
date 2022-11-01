@@ -15,33 +15,32 @@
          <input 
             type="text" 
             name="password" 
-            id="password"
             v-model="password"
          >
       </div>
-      <button>Next</button>
+      <button @click="createAccount()">Next</button>
    </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
-
+const router = useRouter();
 const auth = getAuth()
-const createAccount = () => {createUserWithEmailAndPassword(
-   auth, 
-   email.value,
-   password.value
-).then((userCredential) => {
-   const user = userCredential.user
-}).catch((error) => {
-   const errorCode = error.code;
-   const errorMessage = error.message;
-})
+
+const createAccount = () => {
+   createUserWithEmailAndPassword(auth, email.value, password.value)
+   .then((userCredential) => {
+      console.log('Successfully registred!', auth, auth.currentUser, userCredential.user)
+      router.push('/todos');
+   })
+   .catch((error) => console.log(error.message))
 }
+
 
 </script>
 
