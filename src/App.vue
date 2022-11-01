@@ -9,6 +9,7 @@
 
 <template>
   <Headerc />
+  
   <router-view/>
 
 </template>
@@ -19,5 +20,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+  }
+  body {
+    background-color: #111;
   }
 </style>
