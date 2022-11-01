@@ -1,6 +1,6 @@
 <template>
    <div class="form_container">
-      <h2>Create Account</h2>
+      <h2>Login </h2>
       <div class="form_input">
          <label for="email">Email</label>
          <input 
@@ -18,34 +18,16 @@
             v-model="password"
          >
       </div>
-      <button @click="createAccount()">Next</button>
+      <button @click="createAccount()">Login</button>
    </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
-import { useRouter } from 'vue-router';
-
-const email = ref('');
-const password = ref('');
-const router = useRouter();
-const auth = getAuth()
-
-const createAccount = () => {
-   createUserWithEmailAndPassword(auth, email.value, password.value)
-   .then((userCredential) => {
-      console.log(userCredential)
-      console.log(auth, userCredential.user)
-      router.push('/todos');
-   })
-   .catch((error) => console.log(error.message))
-}
-
 
 </script>
 
 <style>
+
 .form_container {
    max-width: 320px;
    margin: 4rem auto;

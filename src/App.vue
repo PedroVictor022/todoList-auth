@@ -1,8 +1,10 @@
 <script>
   import Headerc from './components/Header.vue';
+  import Footer from './components/Footer.vue'
   export default  {
     components: {
-      Headerc
+      Headerc,
+      Footer
     }
   }
 </script>
@@ -11,6 +13,9 @@
   <Headerc />
   
   <router-view/>
+
+
+  <Footer />
 
 </template>
 

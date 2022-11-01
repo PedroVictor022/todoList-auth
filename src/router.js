@@ -8,6 +8,15 @@ const router = createRouter({
          path: '/',
          component: ()=> import('./Views/Home.vue')
       },
+      
+      {
+         path: '/register',
+         component: () => import('./Views/Register.vue')
+      },
+      {
+         path: '/login',
+         component: () => import('./Views/SingIn.vue')
+      },
       {
          path: '/todos',
          component: () => import('./Views/Todos.vue'),
@@ -15,14 +24,6 @@ const router = createRouter({
             requiresAuth: true
          }
       },
-      {
-         path: '/register',
-         component: () => import('./Views/Register.vue')
-      }
-      // {
-      //    path: '/register',
-      //    component
-      // }
    ]
 })
 
