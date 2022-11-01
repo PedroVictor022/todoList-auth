@@ -1,6 +1,7 @@
 <template>
    <div class="form_container">
       <h2>Login </h2>
+      <p class="error-msg">{{ errorMsg }}</p>
       <div class="form_input">
          <label for="email">Email</label>
          <input 
@@ -18,16 +19,52 @@
             v-model="password"
          >
       </div>
-      <button @click="createAccount()">Login</button>
+      <button @click="singInAccount()">Login</button>
    </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth"
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const email = ref('');
+const password = ref('');
+const errorMsg = ref('');
+
+const auth = getAuth();
+const singInAccount = () => {
+   signInWithEmailAndPassword(auth, email.value, password.value)
+   .then((userCredential) => {
+      console.log(userCredential.user)
+      errorMsg.value = "Login feito com sucesso! Redirecionando"
+      router.push('/todos')
+   })
+   .catch((error) => {
+      switch(error.code) {
+         case "auth/invalid-email":
+            errorMsg.value = "Error in email"
+            break;
+         case "auth/user-not-found": 
+            errorMsg.value = "User not found in database"
+            break;
+         case "auth/wrong-password":
+            errorMsg.value = "Error in password"
+            break;
+         default: 
+            errorMsg.value = "Email or password incorret"
+      }
+   })
+};
 
 </script>
 
 <style>
-
+.error-msg {
+   text-align: center;
+   color:#fefefe;
+}
 .form_container {
    max-width: 320px;
    margin: 4rem auto;

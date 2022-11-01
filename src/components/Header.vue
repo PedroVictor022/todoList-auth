@@ -4,8 +4,8 @@
       <nav>
          <router-link to="/">Home</router-link>
          <router-link to="/todos">Todos</router-link>
-         <router-link to="/register">Registrar</router-link>
-         <router-link to="/login">Login</router-link>
+         <router-link to="/register" v-if="isLog">Registrar</router-link>
+         <router-link to="/login" v-if="isLog">Login</router-link>
          <a to="*" @click="handleSingOut()" v-if="isLogged">Sing Out</a>
       </nav>
    </header>
@@ -17,6 +17,8 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const isLogged = ref(false);
+const isLog = ref(true);
+
 const router = useRouter();
 let auth = getAuth();
 
@@ -25,8 +27,10 @@ onMounted(() => {
    onAuthStateChanged(auth, (user) => {
       if(user) {
          isLogged.value = true;
+         isLog.value = false;
       } else {
          isLogged.value = false;
+         isLog.value = true
       }
    })
 });

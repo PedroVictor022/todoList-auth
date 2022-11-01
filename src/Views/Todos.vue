@@ -6,22 +6,46 @@
          </div>
          <div class="todo-container">
             <div class="todo-form">
-               <input type="text">
-               <button>Add Todo</button>
+               <input type="text" v-model="newTodo">
+               <button @click="addNewTodo">Add Todo</button>
             </div>
-            <div class="todo-list">
-               <p>Tarefa 1</p>
-               <p>Tarefa 2</p>
-               <p>Tarefa 3</p>
-            </div>
+            <div class="todo-list" v-for="(todo) in todos" :key="todo.id">
+               <div class="todo-list-container">
+                  <p>{{ todo.title }}</p>
+                  <button>X</button>
+               </div>
+            </div>   
          </div>
       </div>
    </div>
 </template>
 
 <script>
+import { ref } from "vue"
 export default {
-   name: 'Todos'
+   name: 'Todos',
+   setup(){
+      const newTodo = ref("")
+      const todos = ref([]);
+
+      function generateID() {
+         return Math.floor(Math.random() * 1000).toFixed(2)
+      }
+
+      function addNewTodo() {
+         todos.value.push({
+            id: generateID(),
+            title: newTodo.value
+         })
+         console.log(todos.value)
+      }
+      return {
+         newTodo,
+         todos, 
+         generateID, 
+         addNewTodo
+      }
+   },
 }
 </script>
 
@@ -77,5 +101,10 @@ export default {
    display:inline-flex;
    gap: 1rem;
    flex-direction: column;
+}
+.todo-list-container {
+   display: flex;
+   gap:0.5rem;
+   
 }
 </style>

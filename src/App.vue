@@ -14,7 +14,6 @@
   
   <router-view/>
 
-
   <Footer />
 
 </template>
