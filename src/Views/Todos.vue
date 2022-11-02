@@ -22,8 +22,8 @@
 
 <script setup>
 import { ref } from "vue";
-// import { db } from 'firebase';
-// import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc, collection, addDoc } from "firebase/firestore";
+import { db } from "../main";
 
 const newTodo = ref("");
 const todos = ref([]);
@@ -34,17 +34,10 @@ function generateID() {
 
 async function addNewTodo() {
    if (newTodo.value.trim()) {
-      
-      // await addDoc(collection(db, 'todoList'), {
-      //    title: newTodo.value,
-      //    id: generateID
-      // })
-      
-      todos.value.push({
+      await addDoc(collection(db, "todoList"), {
          id: generateID(),
          title: newTodo.value
-      });
-      newTodo.value = "";
+      })
    }
 
    console.log(todos.value);
