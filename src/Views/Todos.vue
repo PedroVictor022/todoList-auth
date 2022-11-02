@@ -20,41 +20,39 @@
    </div>
 </template>
 
-<script>
-import { ref } from "vue"
-export default {
-   name: 'Todos',
-   setup() {
-      const newTodo = ref("");
-      const todos = ref([]);
+<script setup>
+import { ref } from "vue";
+// import { db } from 'firebase';
+// import { addDoc, collection } from "firebase/firestore";
 
-      function generateID() {
-         return Math.floor(Math.random() * 1000).toFixed(2);
-      };
+const newTodo = ref("");
+const todos = ref([]);
 
-      function addNewTodo() {
-         if (newTodo.value.trim()) {
-            todos.value.push({
-               id: generateID(),
-               title: newTodo.value
-            });
-            newTodo.value = "";
-         }
+function generateID() {
+   return Math.floor(Math.random() * 1000).toFixed(2);
+};
 
-         console.log(todos.value);
-      };
-      function deleteTodo(index) {
-         todos.value.splice(index, 1);
-      }
-      return {
-         newTodo,
-         todos,
-         generateID,
-         addNewTodo,
-         deleteTodo,
-      };
-   },
+async function addNewTodo() {
+   if (newTodo.value.trim()) {
+      
+      // await addDoc(collection(db, 'todoList'), {
+      //    title: newTodo.value,
+      //    id: generateID
+      // })
+      
+      todos.value.push({
+         id: generateID(),
+         title: newTodo.value
+      });
+      newTodo.value = "";
+   }
+
+   console.log(todos.value);
+};
+async function deleteTodo(index) {
+   todos.value.splice(index, 1);
 }
+
 </script>
 
 <style scoped>
