@@ -9,12 +9,12 @@
                <input type="text" v-model="newTodo">
                <button @click="addNewTodo">Add Todo</button>
             </div>
-            <div class="todo-list" v-for="(todo) in todos" :key="todo.id">
-               <div class="todo-list-container">
+            <div class="todo-list">
+               <div class="todo-list-container" v-for="(todo, index) in todos" :key="todo.id">
                   <p>{{ todo.title }}</p>
-                  <button>X</button>
+                  <button @click="deleteTodo(index)">Delete</button>
                </div>
-            </div>   
+            </div>
          </div>
       </div>
    </div>
@@ -24,27 +24,35 @@
 import { ref } from "vue"
 export default {
    name: 'Todos',
-   setup(){
-      const newTodo = ref("")
+   setup() {
+      const newTodo = ref("");
       const todos = ref([]);
 
       function generateID() {
-         return Math.floor(Math.random() * 1000).toFixed(2)
-      }
+         return Math.floor(Math.random() * 1000).toFixed(2);
+      };
 
       function addNewTodo() {
-         todos.value.push({
-            id: generateID(),
-            title: newTodo.value
-         })
-         console.log(todos.value)
+         if (newTodo.value.trim()) {
+            todos.value.push({
+               id: generateID(),
+               title: newTodo.value
+            });
+            newTodo.value = "";
+         }
+
+         console.log(todos.value);
+      };
+      function deleteTodo(index) {
+         todos.value.splice(index, 1);
       }
       return {
          newTodo,
-         todos, 
-         generateID, 
-         addNewTodo
-      }
+         todos,
+         generateID,
+         addNewTodo,
+         deleteTodo,
+      };
    },
 }
 </script>
@@ -53,31 +61,36 @@ export default {
 .container {
    margin: 2rem auto;
    width: 320px;
-   background:#222;
+   background: #222;
    border-radius: 6px;
 }
+
 .todo-app {
    padding: 1rem;
    width: 100%;
 }
+
 .title {
    text-align: center;
    margin-bottom: 0.5rem;
    color: #fefefe;
 }
+
 .todo-container {
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: space-between;
-   width:100%;
+   width: 100%;
 }
+
 .todo-form {
    display: flex;
    justify-content: space-between;
    align-items: center;
 }
-.todo-form > input {
+
+.todo-form>input {
    border: none;
    border-radius: 5px;
    margin-right: 0.5rem;
@@ -86,7 +99,8 @@ export default {
    background: #111111af;
    color: #fefefe;
 }
-.todo-form > button {
+
+.todo-form>button {
    border: none;
    border-radius: 5px;
    font-weight: bold;
@@ -95,16 +109,38 @@ export default {
    color: #fefefe;
    background: #0bb15e;
 }
+
 .todo-list {
    color: #fefefe;
    margin-top: 1rem;
-   display:inline-flex;
+   display: inline-flex;
    gap: 1rem;
    flex-direction: column;
+   width: 80%;
+
 }
+
 .todo-list-container {
+   flex-wrap: wrap;
+   background: #75757521;
    display: flex;
-   gap:0.5rem;
-   
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: space-between;
+   gap: 0.5rem;
+   padding: 0.5rem;
+   border-radius: 6px;
+
+}
+
+.todo-list-container>button {
+   border: none;
+   cursor: pointer;
+   width: 60px;
+   border-radius: 4px;
+   background: #7575758c;
+   font-weight: 500;
+   color: #fefefe;
+
 }
 </style>
