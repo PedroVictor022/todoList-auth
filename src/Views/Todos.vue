@@ -32,12 +32,20 @@ function generateID() {
    return Math.floor(Math.random() * 1000).toFixed(2);
 };
 
-async function addNewTodo() {
+async function addNewTodo(e) {
+   e.preventDefault();
    if (newTodo.value.trim()) {
-      await addDoc(collection(db, "todoList"), {
+
+      let newTodoItem = {
          id: generateID(),
          title: newTodo.value
-      })
+      }
+      todos.value.push(newTodoItem)
+
+      await addDoc(collection(db, "todoList"), newTodoItem)
+
+      // Implementar funcao de deletar do banco de dados
+      // Transformar a div que contem o input, em um formulario
    }
 
    console.log(todos.value);
@@ -77,12 +85,14 @@ async function deleteTodo(index) {
 
 .todo-form {
    display: flex;
+   flex-direction: column;
    justify-content: space-between;
    align-items: center;
 }
 
 .todo-form>input {
    border: none;
+   width: 100%;
    border-radius: 5px;
    margin-right: 0.5rem;
    padding: 2px;
@@ -96,7 +106,7 @@ async function deleteTodo(index) {
    border-radius: 5px;
    font-weight: bold;
    font-size: 14px;
-   padding: 2px;
+   padding: px;
    color: #fefefe;
    background: #0bb15e;
 }
